@@ -1,0 +1,65 @@
+<html>
+<head>
+</head>
+<body>
+<div align='middle'>
+<img id='pic' src="DoorClose.png" alt="theDoor" width="400" height='640'>
+</div>
+
+<script src="https://cdn.NETPIE.io/microgear.js"></script>
+<script>
+const APPID = "HWsmarthouse";
+const KEY = "tRVWBRKu5TzLuTo";
+const SECRET = "vclR2zMJJzKyXUCs3wsauPpcm";
+const ALIAS = "kuyfilm";
+var microgear = Microgear.create({
+key: KEY,
+secret: SECRET,
+alias : ALIAS
+});
+function toggle() {
+if(document.getElementById("button").innerText=="off"){
+microgear.chat('pieled','1');
+}
+else{
+microgear.chat('pieled','0');
+}
+}
+
+
+function door(sw) {
+    
+}
+
+
+
+microgear.on('message',function(topic,msg) {
+document.getElementById("data").innerHTML = msg;
+if(msg=="OPEN"){
+document.getElementById("button").innerText="door open";
+}else {
+document.getElementById("button").innerText="closed";
+}
+var pic;
+    if (msg == "OPEN") {
+        pic = "DoorOpen.png"
+    } else {
+        pic = "DoorClose.png"
+    }
+    document.getElementById('pic').src = pic;
+});
+microgear.on('connected', function() {
+microgear.setAlias(ALIAS);
+document.getElementById("data").innerHTML = "Now I am connected with NETPIE...";
+});
+microgear.connect(APPID);
+</script>
+
+<div id="data">_____</div>
+<center>
+<button onclick="toggle()" id="button">off</button>
+</center>
+
+
+</body>
+</html>
